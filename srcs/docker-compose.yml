@@ -1,0 +1,51 @@
+services:
+  mariadb:
+    build: requirements/mariadb/
+    env_file:
+        - .env
+    volumes:
+        - db_data:/var/lib/mysql/data
+    networks:
+      - network_inception
+    restart: always
+  wordpress:
+    depends_on:
+      - mariadb
+    build: requirements/wordpress/
+    env_file:
+        - .env
+    volumes:
+        - wp_data:/var/www/html
+    networks:
+      - network_inception
+    restart: always
+  ngnix:
+    build: requirements/ngnix/
+    depends_on:
+      - wordpress
+    env_file:
+        - .env
+    ports:
+        - "443:443"
+    volumes:
+        - wp_data:/var/www/html
+    networks:
+      - network_inception
+    restart: always
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/evocatur/data/mysql
+      o: bind
+  wp_data:
+      driver: local
+      driver_opts:
+        type: none
+        device: /home/evocatur/data/wordpress
+        o: bind
+
+networks:
+  network_inception:
+    driver: bridge
