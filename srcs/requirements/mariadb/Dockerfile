@@ -1,15 +1,28 @@
-FROM alpine:3.19.4
+# Dockerfile for MariaDB container
 
-RUN apk update && apk upgrade
+# Use Alpine Linux 3.19 as the base image
+FROM alpine:3.19
 
-RUN apk add --no-cache mysql mysql-client
+# Install MariaDB and client
+RUN apk update && apk add mariadb mariadb-client
 
-RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
+# Create necessary directories and set permissions
+RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql && chmod 777 /var/lib/mysql
 
-RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
-
-COPY conf/init.sql /docker-entrypoint-initdb.d/init.sql
-
+# Expose MariaDB port
 EXPOSE 3306
 
-CMD ["mysqld", "--datadir=/var/lib/mysql", "--user=mysql"]
+# Copy initialization script and SQL file
+COPY ./tools/init_mariadb.sh /usr/local/bin/init_mariadb.sh
+COPY  ./conf/wordpress.sql /usr/local/bin/wordpress.sql
+COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
+
+# Set execute permissions
+RUN chmod +x /usr/local/bin/init_mariadb.sh
+RUN chmod +x /usr/local/bin/wordpress.sql
+
+# Set entrypoint
+ENTRYPOINT [ "/usr/local/bin/init_mariadb.sh" ]
+
+# Set default command
+CMD [ "mysqld" ]

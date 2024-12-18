@@ -1,16 +1,16 @@
 FROM alpine:3.19.4
 
-# Install required packages
-RUN apk add --no-cache wget lighttpd
+# # Install required packages
+# RUN apk add --no-cache wget lighttpd
 
-# Create the directory for webapps
-RUN mkdir -p /usr/share/webapps/
+# # Create the directory for webapps
+# RUN mkdir -p /usr/share/webapps/
 
-# Download and extract WordPress
-RUN cd /usr/share/webapps/ && \
-wget https://wordpress.org/latest.tar.gz && \
-tar -xzvf latest.tar.gz && \
-rm latest.tar.gz
+# # Download and extract WordPress
+# RUN cd /usr/share/webapps/ && \
+# wget https://wordpress.org/latest.tar.gz && \
+# tar -xzvf latest.tar.gz && \
+# rm latest.tar.gz
 
 RUN apk update && apk add php php-cgi php-fpm php-mysqli php-mbstring php-gd php-cli php-phar curl
 
