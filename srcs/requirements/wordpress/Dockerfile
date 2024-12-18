@@ -1,18 +1,23 @@
 FROM alpine:3.19.4
 
-# # Install required packages
-# RUN apk add --no-cache wget lighttpd
+# Install required packages and PHP extensions
+RUN apk add --no-cache \
+    curl \
+    php82 \
+    php82-cgi \
+    php82-fpm \
+    php82-mysqli \
+    php82-mbstring \
+    php82-gd \
+    php82-cli \
+    php82-phar \
+    && rm -rf /var/cache/apk/*
 
-# # Create the directory for webapps
-# RUN mkdir -p /usr/share/webapps/
-
-# # Download and extract WordPress
-# RUN cd /usr/share/webapps/ && \
-# wget https://wordpress.org/latest.tar.gz && \
-# tar -xzvf latest.tar.gz && \
-# rm latest.tar.gz
-
-RUN apk update && apk add php php-cgi php-fpm php-mysqli php-mbstring php-gd php-cli php-phar curl
+# Download and extract WordPress
+RUN curl -O https://wordpress.org/latest.tar.gz \
+    && tar xfz latest.tar.gz \
+    && mv wordpress/* . \
+    && rm -rf latest.tar.gz wordpress
 
 COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
 
@@ -25,5 +30,4 @@ EXPOSE 9000
 
 WORKDIR /var/www/html
 
-# Start PHP-FPM
 CMD ["php-fpm82", "-F"]
