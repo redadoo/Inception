@@ -2,22 +2,22 @@ FROM alpine:3.19.4
 
 # Install required packages and PHP extensions
 RUN apk add --no-cache \
-    curl \
-    php82 \
-    php82-cgi \
-    php82-fpm \
-    php82-mysqli \
-    php82-mbstring \
-    php82-gd \
-    php82-cli \
-    php82-phar \
-    && rm -rf /var/cache/apk/*
+	curl \
+	php82 \
+	php82-cgi \
+	php82-fpm \
+	php82-mysqli \
+	php82-mbstring \
+	php82-gd \
+	php82-cli \
+	php82-phar \
+	&& rm -rf /var/cache/apk/*
 
 # Download and extract WordPress
 RUN curl -O https://wordpress.org/latest.tar.gz \
-    && tar xfz latest.tar.gz \
-    && mv wordpress/* . \
-    && rm -rf latest.tar.gz wordpress
+	&& tar xfz latest.tar.gz \
+	&& mv wordpress/* . \
+	&& rm -rf latest.tar.gz wordpress
 
 COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
 
