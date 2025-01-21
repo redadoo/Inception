@@ -6,12 +6,13 @@ RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql && chmod 777 
 
 EXPOSE 3306
 
-COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 COPY ./tools/init_mariadb.sh /usr/local/bin/init_mariadb.sh
-COPY ./conf/wordpress.sql /usr/local/bin/
+COPY  ./conf/wordpress.sql /usr/local/bin/wordpress.sql
+COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
+
 RUN chmod +x /usr/local/bin/init_mariadb.sh
 RUN chmod +x /usr/local/bin/wordpress.sql
 
 ENTRYPOINT [ "/usr/local/bin/init_mariadb.sh" ]
 
-CMD [ "mysqld"]
+CMD [ "mysqld" ]

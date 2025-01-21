@@ -28,9 +28,9 @@ logs:
 
 ensure_dirs:
 	@echo "Creating necessary directories if they don't exist..."
-	@sudo mkdir -p $(DATA_PATH)
-	@sudo mkdir -p $(WB_DATA_PATH)
-	@sudo mkdir -p $(DATABASE_DATA_PATH)
-	@sudo chmod -R 755 $(DATA_PATH)
+	@mkdir -p $(WB_DATA_PATH)
+	@mkdir -p $(DATABASE_DATA_PATH)
+	@mkdir -p $(DATA_PATH)  # Add this line to ensure DATA_PATH exists
+	@chmod -R 755 $(DATA_PATH)
 	@echo "Directories ready: /home/user/data/wordpress, /home/user/data/mysql, $(DATA_PATH)"
 
