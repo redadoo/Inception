@@ -1,16 +1,16 @@
 DOCKER_COMPOSE_FILE = srcs/docker-compose.yml
 DATA_PATH = /home/edoardo/data
-DATABASE_DATA_PATH = /home/evocatur/data/mysql
-WB_DATA_PATH = /home/evocatur/data/wordpress
+DATABASE_DATA_PATH = /home/edoardo/data/mysql
+WB_DATA_PATH = /home/edoardo/data/wordpress
 
 .PHONY: all build run stop restart clean logs
 
 all: build run
 
-build:
+build: ensure_dirs
 	@docker compose -f $(DOCKER_COMPOSE_FILE) build
 
-run: ensure_dirs
+run:
 	@docker compose -f $(DOCKER_COMPOSE_FILE) up -d
 
 stop:
@@ -28,9 +28,9 @@ logs:
 
 ensure_dirs:
 	@echo "Creating necessary directories if they don't exist..."
-	@mkdir -p $(WB_DATA_PATH)
-	@mkdir -p $(DATABASE_DATA_PATH)
-	@mkdir -p $(DATA_PATH)  # Add this line to ensure DATA_PATH exists
-	@chmod -R 755 $(DATA_PATH)
-	@echo "Directories ready: /home/evocatur/data/wordpress, /home/evocatur/data/mysql, $(DATA_PATH)"
+	@sudo mkdir -p $(DATA_PATH)
+	@sudo mkdir -p $(WB_DATA_PATH)
+	@sudo mkdir -p $(DATABASE_DATA_PATH)
+	@sudo chmod -R 755 $(DATA_PATH)
+	@echo "Directories ready: /home/edoardo/data/wordpress, /home/edoardo/data/mysql, $(DATA_PATH)"
 

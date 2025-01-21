@@ -1,57 +1,52 @@
 services:
+  ngnix:
+    container_name: ngnix
+    image: ngnix
+    build: requirements/ngnix/
+    ports:
+        - "443:443"
+    networks:
+      - network_inception
+    volumes:
+        - wp_data:/var/www/html
+    restart: always
   mariadb:
-    build: requirements/mariadb/
     container_name: mariadb
     image: mariadb
+    build: requirements/mariadb/
     env_file:
         - .env
     volumes:
-        - db_data:/var/lib/mysql/data
+      - db_data:/var/lib/mysql
     networks:
       - network_inception
     restart: always
   wordpress:
     container_name: wordpress
     image: wordpress
+    build: requirements/wordpress/
     depends_on:
       - mariadb
-    build: requirements/wordpress/
+    networks:
+      - network_inception
     env_file:
         - .env
     volumes:
-        - wp_data:/var/www/html
-    networks:
-      - network_inception
-    restart: always
-  ngnix:
-    container_name: ngnix
-    image: ngnix
-    build: requirements/ngnix/
-    depends_on:
-      - wordpress
-    env_file:
-        - .env
-    ports:
-        - "443:443"
-    volumes:
-        - wp_data:/var/www/html
-    networks:
-      - network_inception
+      - wp_data:/var/www/html
     restart: always
 volumes:
   db_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/evocatur/data/mysql
+      device: /home/edoardo/data/mysql
       o: bind
   wp_data:
       driver: local
       driver_opts:
         type: none
-        device: /home/evocatur/data/wordpress
+        device: /home/edoardo/data/wordpress
         o: bind
-
 networks:
   network_inception:
     driver: bridge

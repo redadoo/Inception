@@ -1,33 +1,40 @@
-FROM alpine:3.19.4
+FROM alpine:3.20.0
 
-# Install required packages and PHP extensions
+RUN apk add --no-cache curl 
+
 RUN apk add --no-cache \
 	curl \
-	php82 \
-	php82-cgi \
-	php82-fpm \
-	php82-mysqli \
-	php82-mbstring \
-	php82-gd \
-	php82-cli \
-	php82-phar \
+	php83 \
+	php83-cgi \
+	php83-fpm \
+	php83-mysqli \
+	php83-mbstring \
+	php83-gd \
+	php83-cli \
+	php83-phar \
 	&& rm -rf /var/cache/apk/*
 
-# Download and extract WordPress
+	
+WORKDIR /var/www/html/
+	
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+	&& chmod +x wp-cli.phar \
+	&& mv wp-cli.phar /usr/local/bin/wp
+
 RUN curl -O https://wordpress.org/latest.tar.gz \
-	&& tar xfz latest.tar.gz \
-	&& mv wordpress/* . \
-	&& rm -rf latest.tar.gz wordpress
+&& tar xfz latest.tar.gz \
+&& mv wordpress/*  . \
+&& rm -rf latest.tar.gz wordpress
 
-COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
+COPY ./conf/www.conf /etc/php/php83-fpm.d/www.conf
 
-COPY ./tools/wp_init.sh /usr/local/bin/wp_init.sh
+RUN mkdir /run/php
+
+COPY ./tools/wp_init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/wp_init.sh
-
-ENTRYPOINT [ "/usr/local/bin/wp_init.sh" ]
+ENTRYPOINT ["/usr/local/bin/wp_init.sh"]
+	
 
 EXPOSE 9000
 
-WORKDIR /var/www/html
-
-CMD ["php-fpm82", "-F"]
+CMD ["/usr/sbin/php-fpm83", "-F"]
