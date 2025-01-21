@@ -21,7 +21,7 @@ else
   
   chmod 644 wp-config.php
 
-  wp user create $WP_USER $WP_EMAIL --role=author --user_pass=$WP_PASS
+  # wp user create $WP_USER $WP_EMAIL --role=author --user_pass=$WP_PASS
 
   echo "wp-config.php has been created successfully."
 fi

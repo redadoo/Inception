@@ -1,6 +1,6 @@
 FROM alpine:3.20.0
 
-RUN apk update && apk upgrade && apk add nginx && apk add openssl
+RUN apk update && apk upgrade && apk add nginx openssl curl
 
 RUN mkdir -p /etc/nginx/ssl
 

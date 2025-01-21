@@ -4,7 +4,7 @@ services:
     image: ngnix
     build: requirements/ngnix/
     ports:
-        - "443:443"
+        - 443:443
     networks:
       - network_inception
     volumes:
@@ -39,13 +39,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/edoardo/data/mysql
+      device: /home/user/data/mysql
       o: bind
   wp_data:
       driver: local
       driver_opts:
         type: none
-        device: /home/edoardo/data/wordpress
+        device: /home/user/data/wordpress
         o: bind
 networks:
   network_inception:
