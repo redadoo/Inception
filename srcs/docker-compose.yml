@@ -44,13 +44,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/user/data/mysql
+      device: /home/evocatur/data/mysql
       o: bind
   wp_data:
       driver: local
       driver_opts:
         type: none
-        device: /home/user/data/wordpress
+        device: /home/evocatur/data/wordpress
         o: bind
 
 networks:
