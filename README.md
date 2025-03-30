@@ -31,7 +31,7 @@
    ```
 3. Navigate into the project directory:
    ```sh
-   Inception/
+   cd Inception/
    ```
 4. Build and start the Docker containers:
    ```sh
