@@ -1,7 +1,7 @@
 DOCKER_COMPOSE_FILE = srcs/docker-compose.yml
-DATA_PATH = /home/evocatur/data
-DATABASE_DATA_PATH = /home/evocatur/data/mysql
-WB_DATA_PATH = /home/evocatur/data/wordpress
+DATA_PATH = /home/$(shell whoami)/data
+DATABASE_DATA_PATH = /home/$(shell whoami)/data/mysql
+WB_DATA_PATH = /home/$(shell whoami)/data/wordpress
 
 .PHONY: all build run stop restart clean logs
 
@@ -32,5 +32,4 @@ ensure_dirs:
 	@sudo mkdir -p $(DATABASE_DATA_PATH)
 	@sudo mkdir -p $(DATA_PATH)
 	@sudo chmod -R 755 $(DATA_PATH)
-	@echo "Directories ready: /home/evocatur/data/wordpress, /home/evocatur/data/mysql, $(DATA_PATH)"
-
+    @echo "Directories ready: $(WB_DATA_PATH), $(DATABASE_DATA_PATH), $(DATA_PATH)"
