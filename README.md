@@ -1,5 +1,10 @@
 # Inception
 
+![GitHub repo size](https://img.shields.io/github/repo-size/redadoo/Inception)
+![GitHub contributors](https://img.shields.io/github/contributors/redadoo/Inception)
+![GitHub stars](https://img.shields.io/github/stars/redadoo/Inception?style=social)
+![GitHub forks](https://img.shields.io/github/forks/redadoo/Inception?style=social)
+
 ## Description
 
 **Inception** is a project from the 42 school's Common Core curriculum designed to broaden your knowledge of system administration using Docker. The primary goal is to virtualize various services by creating an infrastructure composed of Docker containers for Nginx, WordPress, and MariaDB.
@@ -23,3 +28,16 @@
 
    ```sh
    git clone https://github.com/redadoo/Inception.git
+   ```
+3. Navigate into the project directory:
+   ```sh
+   Inception/
+   ```
+4. Build and start the Docker containers:
+   ```sh
+   make all
+   ```
+5. Visit wordpress site on:
+   [site](https://localhost:443)
+   
+  
